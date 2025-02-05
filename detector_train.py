@@ -86,17 +86,17 @@ def main():
                         help='Dataset domains (comma separated)')
     parser.add_argument('--class_path', default='./PASCAL_VOC.txt', type=str,
                         help='Class label txt file directory')
-    parser.add_argument('--model', default='ssdlite640', choices=['ssdlite320','ssdlite512','ssdlite416','ssdlite640'],
+    parser.add_argument('--model', default='ssdlite512', choices=['ssdlite320','ssdlite512','ssdlite416','ssdlite640'],
                         help='Detector model name')
-    parser.add_argument('--batch_size', default=32, type=int, 
-                        help='Batch size for training (Enter a value greater than 3)') #32 6.9GB
+    parser.add_argument('--batch_size', default=16, type=int, 
+                        help='Batch size for training (Enter a value greater than 3)')
     parser.add_argument('--checkpoint_every', default=10, type=int, 
                         help='Save a checkpoint every N epochs during training')
     parser.add_argument('--resume', default=None, type=str,
                         help='Checkpoint state_dict file to resume training from')
     parser.add_argument('--num_workers', default=6, type=int,
                         help='Number of workers used in dataloading')
-    parser.add_argument('--no-preload', dest='preload', action='store_false',
+    parser.add_argument('--no-preload', dest='preload', default=False, action='store_false',
                         help='Do not preload dataset into memory')
     parser.add_argument('--prefetch_factor', default=2, type=int,
                         help='Factor of number of workers used in dataloading')
@@ -105,7 +105,7 @@ def main():
     parser.add_argument('--th_iou', default=0.5, type=float,
                         help='IOU Threshold')
     parser.add_argument('--lr', '--learning-rate', default=5e-4, type=float,
-                        help='Initial learning rate') #1e-3
+                        help='Initial learning rate') #original: 1e-3
     parser.add_argument('--momentum', default=0.9, type=float,
                         help='Momentum value for SGD')
     parser.add_argument('--weight_decay', default=5e-4, type=float,

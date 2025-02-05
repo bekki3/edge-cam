@@ -75,7 +75,7 @@ class PASCAL_VOC_Dataset:
                 self.data_cache.append((img, target))
                 
                 # Print intermediate throughput every 100 items
-                if (idx + 1) % 100 == 0:
+                if (idx + 1) % 200 == 0:
                     elapsed = time.time() - start_time
                     print(f"Loaded {idx + 1}/{num_items} items - Throughput: {(idx + 1) / elapsed:.2f} items/sec")
             
