@@ -1,3 +1,24 @@
+# Changelog
+
+## Optimizations and Enhancements
+
+- **Dataset Caching**  
+  - **Issue Identified:** Loading the dataset from disk (HDD/SSD) was causing a significant bottleneck.  
+    - **Before:** During training CPU usage was at 100% and GPU usage hovered between 0–60% due to the overhead of reading and preprocessing images on-the-fly.  
+    - **After:** By preloading the dataset into RAM, the bottleneck was eliminated. This resulted in a dramatic reduction of CPU usage (now around 20%) and improved GPU utilization (now over 80%).
+  - Preloaded images and annotations into memory, thus removing repeated disk I/O operations during training.
+  - This reduced training time by over 6 times.
+
+- **DataLoader Improvements**  
+  - Adjusted DataLoader settings such as `pin_memory` and `prefetch_factor` to further streamline data throughput.
+
+## Primary Bottleneck Addressed
+
+The main performance issue was due to the slow disk-based loading of the dataset. By caching the dataset in memory, we significantly reduced the CPU overhead and allowed the GPU to run at higher utilization, leading to overall faster training times.
+
+
+
+
 
 PyTorch implementation of:
 

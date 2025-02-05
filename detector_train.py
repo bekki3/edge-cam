@@ -81,7 +81,7 @@ class Callback(TrainerCallback):
 def main():
     parser = argparse.ArgumentParser(description='Detector Training')
     parser.add_argument('--dataset_root', default='./PASCAL_VOC_Dataset/PASCAL_VOC_2007/,./PASCAL_VOC_Dataset/PASCAL_VOC_2012/',
-                        help='Dataset root directory path')
+                        help='Dataset root directory path') #'./PASCAL_VOC_Dataset/PASCAL_VOC_2007/,./PASCAL_VOC_Dataset/PASCAL_VOC_2012/'
     parser.add_argument('--dataset_domains', default='train,validation', type=str,
                         help='Dataset domains (comma separated)')
     parser.add_argument('--class_path', default='./PASCAL_VOC.txt', type=str,
