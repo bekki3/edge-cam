@@ -72,7 +72,7 @@ class DetectionTrainer:
             else:
                 self.scheduler.step()
         if self.callback:
-            self.callback.step_end(self, epoch, loss)
+            self.callback.step_end(self, epoch, loss, self.args)
         return loss
         
     def minibatch(self, model, epoch, idx, batch):
@@ -124,7 +124,7 @@ class DetectionTrainer:
                                 num_workers=num_workers,
                                 collate_fn=self.collate,
                                 drop_last=True,
-                                prefetch_factor=8,
+                                prefetch_factor=args.prefetch_factor,  #8 took too long, caused full RAM
                                 persistent_workers=True)
         return dataloader
 

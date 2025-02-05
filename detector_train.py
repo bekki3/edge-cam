@@ -60,7 +60,7 @@ class Callback(TrainerCallback):
         cnt = (idx + 1) * self.batch_size
         print("[%d / %d] - loss=%.3f" % (cnt, self.total_cnt, loss), end='\r')
 
-    def step_end(self, t, epoch, loss):
+    def step_end(self, t, epoch, loss, args):
         print(str(datetime.now()) + "  epoch#%d end - mean loss=%.3f" % (epoch, loss))
         self.min_loss = min(self.min_loss, loss)
         self.summary.add_scalar('loss', loss, epoch)
@@ -68,10 +68,10 @@ class Callback(TrainerCallback):
         for param_group in t.optimizer.param_groups:
             self.summary.add_scalar('lr', param_group['lr'], epoch)
         # Save checkpoint models
-        if epoch % 5 == 0:
-            t.save_model(epoch=epoch, loss=loss, optimizer=t.optimizer, postfix='obj_check')
         if self.min_loss == loss:
             t.save_model(epoch=epoch, loss=self.min_loss, optimizer=t.optimizer, postfix='obj_best')
+        elif epoch % args.checkpoint_every == 0:
+            t.save_model(epoch=epoch, loss=loss, optimizer=t.optimizer, postfix='obj_check')
 
     def fit_end(self, t, loss, epoch):
         t.save_model(epoch=epoch, loss=loss, optimizer=t.optimizer, postfix='obj_latest')
@@ -90,10 +90,16 @@ def main():
                         help='Detector model name')
     parser.add_argument('--batch_size', default=32, type=int, 
                         help='Batch size for training (Enter a value greater than 3)') #32 6.9GB
+    parser.add_argument('--checkpoint_every', default=10, type=int, 
+                        help='Save a checkpoint every N epochs during training')
     parser.add_argument('--resume', default=None, type=str,
                         help='Checkpoint state_dict file to resume training from')
-    parser.add_argument('--num_workers', default=12, type=int,
+    parser.add_argument('--num_workers', default=6, type=int,
                         help='Number of workers used in dataloading')
+    parser.add_argument('--no-preload', dest='preload', action='store_false',
+                        help='Do not preload dataset into memory')
+    parser.add_argument('--prefetch_factor', default=2, type=int,
+                        help='Factor of number of workers used in dataloading')
     parser.add_argument('--epochs', default=600, type=int,
                         help='Number of epochs to run')
     parser.add_argument('--th_iou', default=0.5, type=float,

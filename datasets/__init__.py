@@ -2,6 +2,7 @@ from .voc_detection import PASCAL_VOC_Dataset, Merging_Dataset
 
 def load_dataset(args, transforms=None, eval_mode_value=0):
     class_path = args.class_path
+    preload = args.preload
     datasets = []
     print("Dataset parts: ", len(args.dataset_root.split(','))*len(args.dataset_domains.split(',')))
     for data_dir in args.dataset_root.split(','):
@@ -10,6 +11,7 @@ def load_dataset(args, transforms=None, eval_mode_value=0):
                                                domain=domain,
                                                transform=transforms,
                                                class_path=class_path,
-                                               eval_mode=eval_mode_value))
+                                               eval_mode=eval_mode_value,
+                                               preload=preload))
     merged_dataset = Merging_Dataset(datasets)
     return merged_dataset

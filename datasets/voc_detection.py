@@ -1,5 +1,6 @@
 import os
 import glob
+import time
 
 import numpy as np
 
@@ -48,16 +49,40 @@ class PASCAL_VOC_Dataset:
         
         # Set preload flag and initialize cache if needed.
         self.preload = preload
+
+
+        # if self.preload:
+        #     print("Preloading dataset into memory...")
+        #     self.data_cache = []
+        #     for idx in range(len(self.image_ids)):
+        #         img, target = self.load_item(idx)
+        #         # Apply the transformation during preload if desired.
+        #         if self.transform is not None:
+        #             img, target = self.transform(img, target)
+        #         self.data_cache.append((img, target))
+        #     print("Preloading complete.")
+
         if self.preload:
             print("Preloading dataset into memory...")
             self.data_cache = []
-            for idx in range(len(self.image_ids)):
+            start_time = time.time()
+            num_items = len(self.image_ids)
+            for idx in range(num_items):
                 img, target = self.load_item(idx)
                 # Apply the transformation during preload if desired.
                 if self.transform is not None:
                     img, target = self.transform(img, target)
                 self.data_cache.append((img, target))
-            print("Preloading complete.")
+                
+                # Print intermediate throughput every 100 items
+                if (idx + 1) % 100 == 0:
+                    elapsed = time.time() - start_time
+                    print(f"Loaded {idx + 1}/{num_items} items - Throughput: {(idx + 1) / elapsed:.2f} items/sec")
+            
+            total_time = time.time() - start_time
+            print(f"Preloading complete. Loaded {num_items} items in {total_time:.2f} seconds "
+                f"({num_items / total_time:.2f} items/sec).")
+
 
     def __len__(self):
         return len(self.image_ids)
