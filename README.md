@@ -17,7 +17,10 @@
 The main performance issue was due to the slow disk-based loading of the dataset. By caching the dataset in memory, we significantly reduced the CPU overhead and allowed the GPU to run at higher utilization, leading to overall faster training times.
 
 
+## Steps to set up the trainer
 
+1. Create conda environment with python 3.10.11, install Torch library (https://pytorch.org/)
+2. run pip install -r requirements.txt
 
 
 PyTorch implementation of:
