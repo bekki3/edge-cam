@@ -80,7 +80,7 @@ class Callback(TrainerCallback):
 
 def main():
     parser = argparse.ArgumentParser(description='Detector Training')
-    parser.add_argument('--dataset_root', default='./PASCAL_VOC_Dataset/PASCAL_VOC_2007/,./PASCAL_VOC_Dataset/PASCAL_VOC_2012/',
+    parser.add_argument('--dataset_root', default='./PASCAL_VOC_Dataset/PASCAL_VOC_2007/',
                         help='Dataset root directory path') #'./PASCAL_VOC_Dataset/PASCAL_VOC_2007/,./PASCAL_VOC_Dataset/PASCAL_VOC_2012/'
     parser.add_argument('--dataset_domains', default='train,validation', type=str,
                         help='Dataset domains (comma separated)')
@@ -96,8 +96,8 @@ def main():
                         help='Checkpoint state_dict file to resume training from')
     parser.add_argument('--num_workers', default=6, type=int,
                         help='Number of workers used in dataloading')
-    parser.add_argument('--no-preload', dest='preload', default=False, action='store_false',
-                        help='Do not preload dataset into memory')
+    parser.add_argument('--preload', dest='preload', default=False, action='store_true',
+                        help='Preload dataset into RAM for faster training')
     parser.add_argument('--prefetch_factor', default=2, type=int,
                         help='Factor of number of workers used in dataloading')
     parser.add_argument('--epochs', default=600, type=int,

@@ -143,7 +143,7 @@ def main():
 
     parser.add_argument('inputs', type=str, nargs='*',
                         help='Input image path')
-    parser.add_argument('--model', default='ssdlite320', choices=['ssdlite320','ssdlite512','ssdlite416','ssdlite640'],
+    parser.add_argument('--model', default='ssdlite512', choices=['ssdlite320','ssdlite512','ssdlite416','ssdlite640'],
                         help='Detector model name')
     parser.add_argument('--class_path', default='./PASCAL_VOC.txt', type=str,
                         help='class_label txt file directory')

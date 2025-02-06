@@ -19,15 +19,15 @@ def prepare_model(args,num_classes):
 def main():
     parser = argparse.ArgumentParser(description='Detector Validation')
 
-    parser.add_argument('--model', default='ssdlite320',choices=['ssdlite512','ssdlite320','ssdlite416','ssdlite640'],
+    parser.add_argument('--model', default='ssdlite512',choices=['ssdlite512','ssdlite320','ssdlite416','ssdlite640'],
                         help='Detector model name')
-    parser.add_argument('--dataset_root', default='./PASCAL_VOC_Dataset/PASCAL_VOC_2007',type=str,
-                        help='Dataset root directory path')
+    parser.add_argument('--dataset_root', default='./PASCAL_VOC_Dataset/PASCAL_VOC_2007/',type=str,
+                        help='Dataset root directory path') #'./PASCAL_VOC_Dataset/PASCAL_VOC_2007/,./PASCAL_VOC_Dataset/PASCAL_VOC_2012/'
     parser.add_argument('--dataset_domains', default='test', type=str,
                         help='Dataset domains')
     parser.add_argument('--class_path', default='./PASCAL_VOC.txt', type=str,
                         help='class_label txt file directory')
-    parser.add_argument('--batch_size', default=32, type=int,
+    parser.add_argument('--batch_size', default=16, type=int,
                         help='Batch size for training')
     parser.add_argument('--num_workers', default=-1, type=int,
                         help='Number of workers used in dataloading')
@@ -44,6 +44,10 @@ def main():
     parser.add_argument('--enable_letterbox', default=False, 
                         action='store_true',
                         help='Enable letterboxing image')
+    parser.add_argument('--preload', dest='preload', default=False, action='store_true',
+                    help='Preload dataset into RAM for faster training')
+    parser.add_argument('--prefetch_factor', default=2, type=int,
+                    help='Factor of number of workers used in dataloading')
     parser.add_argument('--feature', default=False, 
                         action='store_true',
                         help='If set to True in ssdlite512 model, feature maps are extracted from 64*64 size')

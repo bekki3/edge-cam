@@ -2,3 +2,6 @@
 /PASCAL_VOC_DATASET
 imagenet_pretrain.pth
 /runs
+/checkpoints_full_dataset
+ssdlite512.anchor
+ssdlite512.onnx
